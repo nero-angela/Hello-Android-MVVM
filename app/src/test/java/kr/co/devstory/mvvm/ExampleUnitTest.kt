@@ -1,4 +1,4 @@
-package kr.co.devstory.android_mvvm
+package kr.co.devstory.mvvm
 
 import org.junit.Test
 

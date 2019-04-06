@@ -1,5 +1,6 @@
 package kr.co.devstory.mvvm.di
 
+import kr.co.devstory.mvvm.adapter.MainAdapter
 import kr.co.devstory.mvvm.constant.BASE_URL
 import kr.co.devstory.mvvm.model.api.GithubApi
 import kr.co.devstory.mvvm.viewModel.MainViewModel
@@ -11,29 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-
-//var retrofitPart = module {
-//    single<KakaoSearchService> {
-//        Retrofit.Builder()
-//            .baseUrl("https://dapi.kakao.com")
-//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//            .create(KakaoSearchService::class.java)
-//    }
-//}
-//
-//var adapterPart = module {
-//    factory {
-//        MainSearchRecyclerViewAdapter()
-//    }
-//}
-//
-//var modelPart = module {
-//    factory<DataModel> {
-//        DataModelImpl(get())
-//    }
-//}
 
 val apiModule = module {
 
@@ -66,8 +44,14 @@ val apiModule = module {
 
 var viewModelModule = module {
     viewModel {
-        MainViewModel(get())
+        MainViewModel(get(), get())
     }
 }
 
-var diModule = listOf(apiModule, viewModelModule)
+var adapterModule = module {
+    factory {
+        MainAdapter()
+    }
+}
+
+var diModule = listOf(apiModule, viewModelModule, adapterModule)

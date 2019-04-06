@@ -1,0 +1,76 @@
+<layout>
+
+    <data>
+
+        <variable
+            name="user"
+            type="kr.co.devstory.mvvm.model.data.UserResponse.User" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_item_profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:url="@{user.picture.large}" />
+
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@{user.fullName}"
+                android:textColor="@color/colorAccent"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="Black Jin" />
+
+            <TextView
+                android:id="@+id/tv_item_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@{user.phone}"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                tools:text="010-0000-0000" />
+
+            <TextView
+                android:id="@+id/tv_item_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{user.email}"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                tools:text="black-jin0427.tistory.com" />
+
+            <TextView
+                android:id="@+id/tv_item_like_cnt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(user.likeCnt)}"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                tools:text="Like : 10" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -14,8 +14,9 @@ buildscript {
         // OkHttp
         okHttpVersion = '3.8.1'
 
-        // glide
+        // Image
         glideVersion = '3.7.0'
+        circleImageViewVersion = '2.1.0'
 
         // ButterKnife
         butterKnifeVersion = '8.8.1'

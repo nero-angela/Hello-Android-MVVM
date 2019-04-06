@@ -6,40 +6,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kr.co.devstory.mvvm.adapter.MainAdapter
 import kr.co.devstory.mvvm.base.BaseViewModel
 import kr.co.devstory.mvvm.constant.RANDOM_USER_URL
 import kr.co.devstory.mvvm.model.api.GithubApi
-import kr.co.devstory.mvvm.model.data.UserResponse
 
-class MainViewModel(private val api: GithubApi) : BaseViewModel() {
+class MainViewModel(
+    private val api: GithubApi,
+    private val mainAdapter: MainAdapter
+) : BaseViewModel() {
 
-    val userList: LiveData<List<UserResponse.User>> get() = _userList
     val progressView: LiveData<Int> get() = _progressView
-    val name: LiveData<String> get() = _name
-
-    private val _userList = MutableLiveData<List<UserResponse.User>>()
+    val adapter: LiveData<MainAdapter> get() = _adapter
     private val _progressView = MutableLiveData<Int>()
-    private val _name = MutableLiveData<String>()
+    private val _adapter = MutableLiveData<MainAdapter>().apply { value = mainAdapter }
 
     fun loadData() {
         addDisposable(
-                api.getUserList(RANDOM_USER_URL)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe {
-                            showProgress()
-                        }
-                        .doOnTerminate {
-                            hideProgress()
-                        }
-                        .subscribe({ userResponse ->
-                            System.out.println("terminate!!!333")
-                            System.out.println(userResponse.toString())
-                            _userList.value = userResponse.userList
-                            _name.value = userResponse.userList!![0].fullName
-                        }, { error ->
-                            Log.e("blackJin", error.message)
-                        })
+            api.getUserList(RANDOM_USER_URL)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    showProgress()
+                }
+                .doOnTerminate {
+                    hideProgress()
+                }
+                .subscribe({ userResponse ->
+                    adapter.value?.let {
+                        it.setItems(userResponse.userList!!)
+                    }
+                }, { error ->
+                    Log.e("error", error.message)
+                })
         )
     }
 

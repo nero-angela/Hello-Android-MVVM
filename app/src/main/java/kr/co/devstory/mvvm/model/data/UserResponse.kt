@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class UserResponse(
     @SerializedName("results")
-    val userList: List<User>? = null
+    val userList: ArrayList<User>? = null
 ) {
     data class User(
         var gender: String?,

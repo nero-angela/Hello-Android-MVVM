@@ -18,6 +18,7 @@ class MainViewModel(
 
     val progressView: LiveData<Int> get() = _progressView
     val adapter: LiveData<MainAdapter> get() = _adapter
+
     private val _progressView = MutableLiveData<Int>()
     private val _adapter = MutableLiveData<MainAdapter>().apply { value = mainAdapter }
 
@@ -33,9 +34,7 @@ class MainViewModel(
                     hideProgress()
                 }
                 .subscribe({ userResponse ->
-                    adapter.value?.let {
-                        it.setItems(userResponse.userList!!)
-                    }
+                    adapter.value?.setItems(userResponse.userList!!)
                 }, { error ->
                     Log.e("error", error.message)
                 })

@@ -10,6 +10,7 @@ import kr.co.devstory.mvvm.adapter.MainAdapter
 import kr.co.devstory.mvvm.base.BaseViewModel
 import kr.co.devstory.mvvm.constant.RANDOM_USER_URL
 import kr.co.devstory.mvvm.model.api.GithubApi
+import kr.co.devstory.mvvm.util.networkCommunication
 
 class MainViewModel(
     private val api: GithubApi,
@@ -25,15 +26,12 @@ class MainViewModel(
     fun loadData() {
         addDisposable(
             api.getUserList(RANDOM_USER_URL)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .networkCommunication()
                 .doOnSubscribe {
                     showProgress()
                 }
-                .doOnTerminate {
-                    hideProgress()
-                }
                 .subscribe({ userResponse ->
+                    hideProgress()
                     adapter.value?.setItems(userResponse.userList!!)
                 }, { error ->
                     Log.e("error", error.message)
